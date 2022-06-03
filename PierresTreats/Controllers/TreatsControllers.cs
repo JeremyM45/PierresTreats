@@ -30,7 +30,7 @@ namespace PierresTreatsController.Controllers
       var thisTreat = _db.Treats.Include(t => t.JoinEntities).ThenInclude(join => join.Flavor).FirstOrDefault(t => t.TreatId == id);
       return View(thisTreat);
     } 
-    // [Authorize]
+    [Authorize]
     public ActionResult Create()
     {
       ViewBag.CategoryId = new SelectList(_db.Flavors, "CategoryId", "Name");
@@ -43,6 +43,7 @@ namespace PierresTreatsController.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+    [Authorize]
     public ActionResult AddFlavor(int id)
     {
       var thisTreat = _db.Treats.FirstOrDefault(t => t.TreatId == id);
@@ -59,6 +60,7 @@ namespace PierresTreatsController.Controllers
       }
       return RedirectToAction("Index");
     }
+    [Authorize]
     public ActionResult Edit(int id)
     {
       var thisTreat = _db.Treats.Include(t => t.JoinEntities).ThenInclude(join => join.Flavor).FirstOrDefault(t => t.TreatId == id);
@@ -78,6 +80,7 @@ namespace PierresTreatsController.Controllers
       _db.SaveChanges();
       return RedirectToAction("Edit", new { id = TreatId });
     }
+    [Authorize]
     public ActionResult Delete(int id)
     {
       var thisTreat = _db.Treats.FirstOrDefault(t => t.TreatId == id);

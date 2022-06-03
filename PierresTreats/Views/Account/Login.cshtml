@@ -6,7 +6,7 @@
 
 @model LoginViewModel
 
-<h2>Log in with your account</h2>
+<h2>Login With Your Account</h2>
 <hr />
 @using (Html.BeginForm())
 {
@@ -18,3 +18,4 @@
 
     <input type="submit" value="Log in" class="btn btn-info" />
 }
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
