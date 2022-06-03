@@ -53,7 +53,16 @@ namespace PierresTreatsController.Controllers
     [HttpPost]
     public ActionResult AddTreat(Flavor flavor, int TreatId)
     {
-      if(TreatId != 0)
+      bool alreadyExists = false;
+      foreach(FlavorTreat flavorTreat in _db.FlavorTreat)
+      {
+        if(flavorTreat.TreatId == TreatId && flavorTreat.FlavorId == flavor.FlavorId)
+        {
+          alreadyExists = true;
+          break;
+        }
+      }
+      if(TreatId != 0 && alreadyExists == false)
       {
         _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
         _db.SaveChanges();
