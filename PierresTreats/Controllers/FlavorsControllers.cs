@@ -11,35 +11,35 @@ using System.Security.Claims;
 
 namespace PierresTreatsController.Controllers
 {
-  public class TreatsController : Controller
+  public class FlavorsController : Controller
   {
     private readonly PierresTreatsContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
-    public TreatsController(UserManager<ApplicationUser> userManager, PierresTreatsContext db)
+    public FlavorsController(UserManager<ApplicationUser> userManager, PierresTreatsContext db)
     {
       _userManager = userManager;
       _db = db;
     }
     public ActionResult Index()
     {
-      List<Treat> model = _db.Treats.ToList();
+      List<Flavor> model = _db.Flavors.ToList();
       return View(model);
     }
     public ActionResult Details(int id)
     {
-      var thisTreat = _db.Treats.Include(t => t.JoinEntities).ThenInclude(join => join.Flavor).FirstOrDefault(t => t.TreatId == id);
-      return View(thisTreat);
+      var thisFlavor = _db.Flavors.Include(f => f.JoinEntities).ThenInclude(join => join.Treat).FirstOrDefault(f => f.FlavorId == id);
+      return View(thisFlavor);
     } 
     // [Authorize]
     public ActionResult Create()
     {
-      ViewBag.CategoryId = new SelectList(_db.Flavors, "CategoryId", "Name");
+      ViewBag.CategoryId = new SelectList(_db.Treats, "CategoryId", "Name");
       return View();
     }
     [HttpPost]
-    public ActionResult Create(Treat treat)
+    public ActionResult Create(Flavor flavor)
     {
-      _db.Treats.Add(treat);
+      _db.Flavors.Add(flavor);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
