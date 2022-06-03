@@ -78,5 +78,18 @@ namespace PierresTreatsController.Controllers
       _db.SaveChanges();
       return RedirectToAction("Edit", new { id = FlavorId });
     }
+    public ActionResult Delete(int id)
+    {
+      var thisFlavor = _db.Flavors.FirstOrDefault(f => f.FlavorId == id);
+      return View(thisFlavor);
+    }
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      var thisFlavor = _db.Flavors.FirstOrDefault(f => f.FlavorId == id);
+      _db.Flavors.Remove(thisFlavor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }

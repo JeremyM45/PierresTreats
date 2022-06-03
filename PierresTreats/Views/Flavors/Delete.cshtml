@@ -1,0 +1,11 @@
+@{
+  Layout = "_Layout";
+}
+@model PierresTreats.Models.Flavor
+<h2>Are You Sure You Wish To Delete @Html.DisplayFor(m => m.Name)</h2>
+@using(Html.BeginForm())
+{
+  <input type="submit" value="Delete" class="btn btn-danger">
+}
+@Html.ActionLink("See All Flavors", "Index")
+@Html.ActionLink("Home", "Index", "Home")
