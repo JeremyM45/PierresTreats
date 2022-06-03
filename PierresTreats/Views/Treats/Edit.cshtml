@@ -1,0 +1,25 @@
+@{
+  Layout = "_Layout";
+}
+
+@model PierresTreats.Models.Treat
+<h2>Edit @Html.DisplayFor(m => m.Name)</h2>
+@using(Html.BeginForm())
+{
+  @Html.HiddenFor(m => m.TreatId)
+  @Html.LabelFor(m => m.Name)
+  @Html.EditorFor(m => m.Name)
+  <input type="submit" value = "Save Changes">
+}
+@foreach (var join in Model.JoinEntities)
+{
+  @using(Html.BeginForm("DeleteFlavor", "Treats"))
+  {
+    <li>@join.Flavor.Name</li>
+    @Html.Hidden("joinId", @join.FlavorTreatId)
+    @Html.Hidden("TreatId", Model.TreatId)
+    <input type="submit" value="Delete" class="btn btn-danger">
+  }
+}
+<p>@Html.ActionLink("See All Treats", "Index")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>
