@@ -11,7 +11,6 @@ using System.Security.Claims;
 
 namespace TreatsController.Controllers
 {
-  // [Authorize]
   public class TreatsController : Controller
   {
     private readonly PierresTreatsContext _db;
@@ -22,24 +21,27 @@ namespace TreatsController.Controllers
       _db = db;
     }
     public ActionResult Index()
-  {
-    List<Treat> model = _db.Treats.ToList();
-    return View(model);
-  }
-
+    {
+      List<Treat> model = _db.Treats.ToList();
+      return View(model);
+    }
+    public ActionResult Details(int id)
+    {
+      var thisTreat = _db.Treats.Include(t => t.JoinEntities).ThenInclude(join => join.Flavor).FirstOrDefault(t => t.TreatId == id);
+      return View(thisTreat);
+    } 
+    // [Authorize]
     public ActionResult Create()
     {
       ViewBag.CategoryId = new SelectList(_db.Flavors, "CategoryId", "Name");
       return View();
     }
-
-    public ActionResult Details(int id)
+    [HttpPost]
+    public ActionResult Create(Treat treat)
     {
-      var thisTreat = _db.Treats
-          .Include(treat => treat.JoinEntities)
-          .ThenInclude(join => join.Flavor)
-          .FirstOrDefault(treat => treat.TreatId == id);
-      return View(thisTreat);
+      _db.Treats.Add(treat);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }
